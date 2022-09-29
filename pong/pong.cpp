@@ -81,6 +81,7 @@ void draw() {
     glLoadIdentity();
 
     // draw rackets
+    // TODO draw beautiful rackets
     drawRect(racket_left_x, racket_left_y, racket_width, racket_height);
     drawRect(racket_right_x, racket_right_y, racket_width, racket_height);
 
@@ -88,9 +89,11 @@ void draw() {
     //drawRect(ball_pos_x, ball_pos_y, ball_size, ball_size);
 
     // draw ball
+    // TODO draw beautiful ball
     drawRect(ball_pos_x - ball_size / 2, ball_pos_y - ball_size / 2, ball_size, ball_size);
 
     // draw score
+    // TODO draw beautiful score
     drawText(width / 2 - 10, height - 15,
         int2str(score_left) + ":" + int2str(score_right));
 
