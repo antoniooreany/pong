@@ -1,30 +1,19 @@
 // pong.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+// constants
+constexpr auto VK_W = 0x57;
+constexpr auto VK_S = 0x53;
+constexpr auto M_PI = 3.14159265359;
 
-// keycodes
-#define VK_W 0x57
-#define VK_S 0x53
-
-#include <iostream>
-
-//#include "stdafx.h"
-
-
-#include <string>
 #include <windows.h>
-#include <iostream>
-#include <conio.h>
 #include <sstream>
-#include <math.h>
-#include <gl\gl.h>
-#include <gl\glu.h>
-#include "GL/freeglut.h"
+#include "GL\freeglut.h"
 #pragma comment(lib, "OpenGL32.lib")
 
 // window size and update rate (60 fps)
-int width = 500;
-int height = 200;
+int width = 1000;
+int height = 400;
 int interval = 1000 / 60;
 
 // score
@@ -32,8 +21,8 @@ int score_left = 0;
 int score_right = 0;
 
 // rackets in general
-int racket_width = 10;
-int racket_height = 80;
+int racket_width = 20;
+int racket_height = 160;
 int racket_speed = 3;
 
 // left racket position
@@ -49,10 +38,8 @@ float ball_pos_x = width / 2;
 float ball_pos_y = height / 2;
 float ball_dir_x = -1.0f;
 float ball_dir_y = 0.0f;
-int ball_size = 8;
+int ball_size = 16;
 int ball_speed = 2;
-
-
 
 void drawText(float x, float y, std::string text) {
     glRasterPos2f(x, y);
@@ -65,6 +52,25 @@ void drawRect(float x, float y, float width, float height) {
     glVertex2f(x + width, y);
     glVertex2f(x + width, y + height);
     glVertex2f(x, y + height);
+    glEnd();
+}
+
+// Circle function
+void drawCircle()
+{
+    float x, y;
+    float counter = 50;
+    float radius = 0.5;
+    float stepAngle = M_PI * 2 / counter;
+    glBegin(GL_TRIANGLE_FAN);
+    glColor3f(1, 0, 1);
+    glVertex2f(0, 0);
+    for (int i = -1; i < counter; i++)
+    {
+        x = sin(stepAngle * i) * radius;
+        y = cos(stepAngle * i) * radius;
+        glVertex2d(x, y);
+    }
     glEnd();
 }
 
@@ -81,21 +87,22 @@ void draw() {
     glLoadIdentity();
 
     // draw rackets
-    // TODO draw beautiful rackets
     drawRect(racket_left_x, racket_left_y, racket_width, racket_height);
     drawRect(racket_right_x, racket_right_y, racket_width, racket_height);
-
-    //// draw ball (easy version, but not entirely centered)
-    //drawRect(ball_pos_x, ball_pos_y, ball_size, ball_size);
+    // TODO draw beautiful rackets
+    // TODO which ones?
 
     // draw ball
-    // TODO draw beautiful ball
     drawRect(ball_pos_x - ball_size / 2, ball_pos_y - ball_size / 2, ball_size, ball_size);
+    // TODO draw beautiful ball: from Examples of GL-tutorial: \Projects\OpenGLTutorials-build-Visual2019-64bits\external\glfw-3.1.2\examples\boing
+    // TODO drawCircle(x, y, r, color);
+    drawCircle();
 
     // draw score
-    // TODO draw beautiful score
-    drawText(width / 2 - 10, height - 15,
+    drawText(width / 2 - 30, 15,
         int2str(score_left) + ":" + int2str(score_right));
+    // TODO draw beautiful score
+    // TODO which one?
 
     // swap buffers (has to be done at the end)
     glutSwapBuffers();
@@ -205,39 +212,27 @@ void enable2D(int width, int height) {
     glLoadIdentity();
 }
 
-
-
-
-
 // program entry point
 int main(int argc, char** argv)
 {
-    std::cout << "Hello World!\n";
     // initialize opengl (via glut)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(width, height);
-    glutCreateWindow("noobtuts.com Pong");
+    glutCreateWindow("Pong game");
 
     // Register callback functions  
     glutDisplayFunc(draw);
     glutTimerFunc(interval, update, 0);
 
-    // setup scene to 2d mode and set draw color to white
+    // setup scene to 2d mode and set draw color to blue
     enable2D(width, height);
-    glColor3f(1.0f, 1.0f, 1.0f);
+    glColor3f(0.0f, 0.0f, 1.0f);
 
     // start the whole thing
     glutMainLoop();
     return 0;
 }
-
-
-
-//int _tmain(int argc, char** argv) {
-//    return 0;
-//}
-
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
