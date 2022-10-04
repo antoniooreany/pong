@@ -11,42 +11,43 @@ constexpr auto M_PI = 3.14159265359;
 #include "GL\freeglut.h"
 #pragma comment(lib, "OpenGL32.lib")
 
-// window size and update rate (60 fps)
-int width = 1000;
-int height = 400;
-int interval = 1000 / 60;
+// window
+int window_width = 1000;
+int window_height = 400; 
+int update_period = 1000 / 60; // frequency = 60 fps
 
 // score
 int score_left = 0;
 int score_right = 0;
 
-// rackets in general
+// racket
 int racket_width = 20;
 int racket_height = 160;
-int racket_speed = 3;
+int racket_speed = 5;
 
 // left racket position
 float racket_left_x = 10.0f;
 float racket_left_y = 50.0f;
-
 // right racket position
-float racket_right_x = width - racket_width - 10;
-float racket_right_y = 50;
+float racket_right_x = window_width - racket_width - 10.0f;
+float racket_right_y = 50.0f;
 
 // ball
-float ball_pos_x = width / 2;
-float ball_pos_y = height / 2;
+float ball_pos_x = window_width / 2;
+float ball_pos_y = window_height / 2;
 float ball_dir_x = -1.0f;
 float ball_dir_y = 0.0f;
 int ball_size = 16;
 int ball_speed = 2;
 
-void drawText(float x, float y, std::string text) {
+void drawText(float x, float y, std::string text) 
+{
     glRasterPos2f(x, y);
     glutBitmapString(GLUT_BITMAP_8_BY_13, (const unsigned char*)text.c_str());
 }
 
-void drawRect(float x, float y, float width, float height) {
+void drawRect(float x, float y, float width, float height) 
+{
     glBegin(GL_QUADS);
     glVertex2f(x, y);
     glVertex2f(x + width, y);
@@ -55,7 +56,6 @@ void drawRect(float x, float y, float width, float height) {
     glEnd();
 }
 
-// Circle function
 void drawCircle()
 {
     float x, y;
@@ -74,14 +74,16 @@ void drawCircle()
     glEnd();
 }
 
-std::string int2str(int x) {
+std::string int2str(int x) 
+{
     // converts int to string
     std::stringstream ss;
     ss << x;
     return ss.str();
 }
 
-void draw() {
+void draw() 
+{
     // clear (has to be done at the beginning)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -94,12 +96,11 @@ void draw() {
 
     // draw ball
     drawRect(ball_pos_x - ball_size / 2, ball_pos_y - ball_size / 2, ball_size, ball_size);
-    // TODO draw beautiful ball: from Examples of GL-tutorial: \Projects\OpenGLTutorials-build-Visual2019-64bits\external\glfw-3.1.2\examples\boing
-    // TODO drawCircle(x, y, r, color);
+    // TODO drawCircle(x, y, r, color) istead of drawRect(x, y, w, h)
     drawCircle();
 
     // draw score
-    drawText(width / 2 - 30, 15,
+    drawText(window_width / 2 - 30, 15,
         int2str(score_left) + ":" + int2str(score_right));
     // TODO draw beautiful score
     // TODO which one?
@@ -108,17 +109,18 @@ void draw() {
     glutSwapBuffers();
 }
 
-void keyboard() {
+void keyboard() 
+{
     // left racket
     if (GetAsyncKeyState(VK_W)) racket_left_y += racket_speed;
     if (GetAsyncKeyState(VK_S)) racket_left_y -= racket_speed;
-
     // right racket
     if (GetAsyncKeyState(VK_UP)) racket_right_y += racket_speed;
     if (GetAsyncKeyState(VK_DOWN)) racket_right_y -= racket_speed;
 }
 
-void vec2_norm(float& x, float& y) {
+void vec2_norm(float& x, float& y) 
+{
     // sets a vectors length to 1 (which means that x + y == 1)
     float length = sqrt((x * x) + (y * y));
     if (length != 0.0f) {
@@ -128,7 +130,8 @@ void vec2_norm(float& x, float& y) {
     }
 }
 
-void updateBall() {
+void updateBall() 
+{
     // fly a bit
     ball_pos_x += ball_dir_x * ball_speed;
     ball_pos_y += ball_dir_y * ball_speed;
@@ -160,23 +163,23 @@ void updateBall() {
     // hit left wall?
     if (ball_pos_x < 0) {
         ++score_right;
-        ball_pos_x = width / 2;
-        ball_pos_y = height / 2;
+        ball_pos_x = window_width / 2;
+        ball_pos_y = window_height / 2;
         ball_dir_x = fabs(ball_dir_x); // force it to be positive
         ball_dir_y = 0;
     }
 
     // hit right wall?
-    if (ball_pos_x > width) {
+    if (ball_pos_x > window_width) {
         ++score_left;
-        ball_pos_x = width / 2;
-        ball_pos_y = height / 2;
+        ball_pos_x = window_width / 2;
+        ball_pos_y = window_height / 2;
         ball_dir_x = -fabs(ball_dir_x); // force it to be negative
         ball_dir_y = 0;
     }
 
     // hit top wall?
-    if (ball_pos_y > height) {
+    if (ball_pos_y > window_height) {
         ball_dir_y = -fabs(ball_dir_y); // force it to be negative
     }
 
@@ -189,7 +192,8 @@ void updateBall() {
     vec2_norm(ball_dir_x, ball_dir_y);
 }
 
-void update(int value) {
+void update(int value) 
+{
     // input handling
     keyboard();
 
@@ -197,13 +201,14 @@ void update(int value) {
     updateBall();
 
     // Call update() again in 'interval' milliseconds
-    glutTimerFunc(interval, update, 0);
+    glutTimerFunc(update_period, update, 0);
 
     // Redisplay frame
     glutPostRedisplay();
 }
 
-void enable2D(int width, int height) {
+void enable2D(int width, int height) 
+{
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -218,15 +223,15 @@ int main(int argc, char** argv)
     // initialize opengl (via glut)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glutInitWindowSize(width, height);
+    glutInitWindowSize(window_width, window_height);
     glutCreateWindow("Pong game");
 
     // Register callback functions  
     glutDisplayFunc(draw);
-    glutTimerFunc(interval, update, 0);
+    glutTimerFunc(update_period, update, 0);
 
     // setup scene to 2d mode and set draw color to blue
-    enable2D(width, height);
+    enable2D(window_width, window_height);
     glColor3f(0.0f, 0.0f, 1.0f);
 
     // start the whole thing
