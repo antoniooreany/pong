@@ -42,12 +42,14 @@ int ball_speed = 2;
 
 void drawText(float x, float y, std::string text) 
 {
+    glColor3f(0.0f, 0.0f, 1.0f);
     glRasterPos2f(x, y);
     glutBitmapString(GLUT_BITMAP_8_BY_13, (const unsigned char*)text.c_str());
 }
 
 void drawRect(float x, float y, float width, float height) 
 {
+    glColor3f(0.0f, 1.0f, 0.0f);
     glBegin(GL_QUADS);
     glVertex2f(x, y);
     glVertex2f(x + width, y);
@@ -58,6 +60,7 @@ void drawRect(float x, float y, float width, float height)
 
 void drawCircle(float ball_pos_x, float ball_pos_y, float ball_radius)
 {
+    glColor3f(1.0f, 0.0f, 1.0f);
     glBegin(GL_POLYGON);
     int optimization_coefficient = 3;
     int count = ball_radius * optimization_coefficient; 
@@ -225,7 +228,7 @@ int main(int argc, char** argv)
 
     // setup scene to 2d mode and set draw color to blue
     enable2D(window_width, window_height);
-    glColor3f(0.0f, 0.0f, 1.0f);
+    //glColor3f(1.0f, 0.0f, 1.0f);
 
     // start the whole thing
     glutMainLoop();
