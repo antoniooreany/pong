@@ -56,20 +56,17 @@ void drawRect(float x, float y, float width, float height)
     glEnd();
 }
 
-void drawCircle()
+void DrawCircle(float ball_pos_x, float ball_pos_y, float ball_radius)
 {
-    float x, y;
-    float counter = 50;
-    float radius = 0.5;
-    float stepAngle = M_PI * 2 / counter;
-    glBegin(GL_TRIANGLE_FAN);
-    glColor3f(1, 0, 1);
-    glVertex2f(0, 0);
-    for (int i = -1; i < counter; i++)
-    {
-        x = sin(stepAngle * i) * radius;
-        y = cos(stepAngle * i) * radius;
-        glVertex2d(x, y);
+    glBegin(GL_POLYGON);
+    //double ball_radius = 40;
+    //double ball_pos_x = 100.0;
+    //double ball_pos_y = 100.0;
+    for (int i = 0; i <= 600; i++) {
+        double angle = 2 * 3.14 * i / 600;
+        double x = cos(angle) * ball_radius;
+        double y = sin(angle) * ball_radius;
+        glVertex2d(ball_pos_x + x, ball_pos_y + y);
     }
     glEnd();
 }
@@ -95,9 +92,10 @@ void draw()
     // TODO which ones?
 
     // draw ball
-    drawRect(ball_pos_x - ball_size / 2, ball_pos_y - ball_size / 2, ball_size, ball_size);
+    //drawRect(ball_pos_x - ball_size / 2, ball_pos_y - ball_size / 2, ball_size, ball_size);
     // TODO drawCircle(x, y, r, color) istead of drawRect(x, y, w, h)
-    drawCircle();
+    //drawCircle(ball_pos_x, ball_pos_y, ball_size/2);
+    DrawCircle(ball_pos_x, ball_pos_y, ball_size / 2);
 
     // draw score
     drawText(window_width / 2 - 30, 15,
