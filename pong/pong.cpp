@@ -38,13 +38,14 @@ float ball_pos_y = window_height / 2;
 float ball_dir_x = -1.0f;
 float ball_dir_y = 0.0f;
 int ball_size = 16;
-int ball_speed = 2;
+int ball_speed = 5;
 
 void drawText(float x, float y, std::string text) 
 {
-    glColor3f(0.0f, 0.0f, 1.0f);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glRasterPos2f(x, y);
-    glutBitmapString(GLUT_BITMAP_8_BY_13, (const unsigned char*)text.c_str());
+    //glutBitmapString(GLUT_BITMAP_8_BY_13, (const unsigned char*)text.c_str());
+    glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)text.c_str());
 }
 
 void drawRect(float x, float y, float width, float height) 
