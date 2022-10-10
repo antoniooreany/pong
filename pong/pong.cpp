@@ -97,10 +97,13 @@ void draw()
     drawCircle(ball_pos_x, ball_pos_y, ball_size / 2);
 
     // draw score
-    drawText(window_width / 2 - 30, 15,
+    drawText(window_width / 2 - 13, 15,
         int2str(score_left) + ":" + int2str(score_right));
     // TODO draw beautiful score
     // TODO which one?
+
+    // TODO draw vertical punctire line in the center
+    drawRect(window_width / 2 - 1, 0, 1, window_height);
 
     // swap buffers (has to be done at the end)
     glutSwapBuffers();
