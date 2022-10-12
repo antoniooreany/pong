@@ -74,18 +74,17 @@ void drawCircle(float ball_pos_x, float ball_pos_y, float ball_radius)
 }
 
 void drawStrippedLine() {
-    // Рисуем зеленую пунктирную линию
-    glEnable(GL_LINE_STIPPLE);// Открываем режим рисования линий
-    glLineStipple(2, 0X00FF);// Устанавливаем режим рисования линий
+    glEnable(GL_LINE_STIPPLE);
+    glLineStipple(2, 0X00FF);
     glColor3f(1.0, 1.0, 1.0);
     glPushMatrix();
     glTranslatef(0.0, 0.5, 0.0);
     glBegin(GL_LINES);
-    glVertex2f(-100.0, 10.0);
-    glVertex2f(100.0, 10.0);
+    glVertex2f(window_width/2, 0);
+    glVertex2f(window_width/2, window_height);
     glEnd();
     glPopMatrix();
-    glDisable(GL_LINE_STIPPLE);// Наконец, вы должны отключить режим рисования линии, иначе красная сплошная линия будет нарисована пунктирной линией при перерисовке
+    glDisable(GL_LINE_STIPPLE);
 }
 
 std::string int2str(int x) 
