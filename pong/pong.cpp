@@ -44,7 +44,6 @@ void drawText(float x, float y, std::string text)
 {
     glColor3f(1.0f, 1.0f, 1.0f);
     glRasterPos2f(x, y);
-    //glutBitmapString(GLUT_BITMAP_8_BY_13, (const unsigned char*)text.c_str());
     glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)text.c_str());
 }
 
@@ -72,6 +71,21 @@ void drawCircle(float ball_pos_x, float ball_pos_y, float ball_radius)
         glVertex2d(ball_pos_x + x, ball_pos_y + y);
     }
     glEnd();
+}
+
+void drawStrippedLine() {
+    // Рисуем зеленую пунктирную линию
+    glEnable(GL_LINE_STIPPLE);// Открываем режим рисования линий
+    glLineStipple(2, 0X00FF);// Устанавливаем режим рисования линий
+    glColor3f(1.0, 1.0, 1.0);
+    glPushMatrix();
+    glTranslatef(0.0, 0.5, 0.0);
+    glBegin(GL_LINES);
+    glVertex2f(-100.0, 10.0);
+    glVertex2f(100.0, 10.0);
+    glEnd();
+    glPopMatrix();
+    glDisable(GL_LINE_STIPPLE);// Наконец, вы должны отключить режим рисования линии, иначе красная сплошная линия будет нарисована пунктирной линией при перерисовке
 }
 
 std::string int2str(int x) 
@@ -102,8 +116,10 @@ void draw()
     // TODO draw beautiful score
     // TODO which one?
 
-    // TODO draw vertical punctire line in the center
-    drawRect(window_width / 2 - 1, 0, 1, window_height);
+    // TODO draw vertical stripped line in the center
+    //drawRect(window_width / 2 - 1, 0, 1, window_height);
+    drawStrippedLine();
+
 
     // swap buffers (has to be done at the end)
     glutSwapBuffers();
@@ -117,6 +133,9 @@ void keyboard()
     // right racket
     if (GetAsyncKeyState(VK_UP)) racket_right_y += racket_speed;
     if (GetAsyncKeyState(VK_DOWN)) racket_right_y -= racket_speed;
+
+    // if the ESC key was pressed: close the window
+    if (GetAsyncKeyState(VK_ESCAPE)) exit(0);
 }
 
 void vec2_norm(float& x, float& y) 
@@ -236,6 +255,7 @@ int main(int argc, char** argv)
 
     // start the whole thing
     glutMainLoop();
+
     return 0;
 }
 
