@@ -62,8 +62,8 @@ void drawCircle(float ball_pos_x, float ball_pos_y, float ball_radius)
 {
     glColor3f(1.0f, 0.0f, 1.0f);
     glBegin(GL_POLYGON);
-    float OPTIMIZATION_COEFFICIENT = 2.6f;
-    int count = ball_radius * OPTIMIZATION_COEFFICIENT; 
+    float CIRCLE_SMOOTH_COEFFICIENT = 2.6f;
+    int count = ball_radius * CIRCLE_SMOOTH_COEFFICIENT; 
     for (int i = 0; i <= count; i++) {
         double angle = 2 * M_PI * i / count;
         double x = cos(angle) * ball_radius;
