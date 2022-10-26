@@ -38,7 +38,7 @@ float ball_pos_y = window_height / 2;
 float ball_dir_x = -1.0f;
 float ball_dir_y = 0.0f;
 int ball_size = 16;
-int ball_speed = 5;
+int ball_speed = 5; 
 
 void drawText(float x, float y, std::string text) 
 {
@@ -62,8 +62,8 @@ void drawCircle(float ball_pos_x, float ball_pos_y, float ball_radius)
 {
     glColor3f(1.0f, 0.0f, 1.0f);
     glBegin(GL_POLYGON);
-    int optimization_coefficient = 3;
-    int count = ball_radius * optimization_coefficient; 
+    float OPTIMIZATION_COEFFICIENT = 2.6f;
+    int count = ball_radius * OPTIMIZATION_COEFFICIENT; 
     for (int i = 0; i <= count; i++) {
         double angle = 2 * M_PI * i / count;
         double x = cos(angle) * ball_radius;
@@ -115,8 +115,7 @@ void draw()
     // TODO draw beautiful score
     // TODO which one?
 
-    // TODO draw vertical stripped line in the center
-    //drawRect(window_width / 2 - 1, 0, 1, window_height);
+    // draw vertical stripped line in the center
     drawStrippedLine();
 
 
